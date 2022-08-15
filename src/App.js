@@ -1,23 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 function App() {
+
+  const [players, setPlayer] = React.useState([])
+  const [jogador, setJogador] = React.useState('')
+  const [playersSort, setplayersSort] = React.useState([])
+  
+
+  function sortPlayerIndex() {
+    return Math.floor(Math.random() * players.length);
+  }
+
+  const sortearJogadores = () => {
+    while (players.length > 0) {
+      let index = sortPlayerIndex();
+
+      let old_players = players;
+      let old_playSort = playersSort;
+
+      old_playSort.push(players[index]);
+      old_players.splice(index, 1);
+
+      setPlayer(old_players);
+      setplayersSort([...old_playSort]);
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <TextField
+          value={jogador}
+          onChange={(e) => setJogador(e.target.value)}
+          id="outlined-basic"
+          label="Jogador"
+          variant="outlined"
+          size='small' />
+
+        <Button variant="contained" onClick={() => {let oldArr = players; oldArr.push(jogador); setPlayer(oldArr); setJogador('');}}> Adicionar </Button>
+      </div>
+
+      <div>
+        <ul>
+          {players.map((player, index) => (
+            <li key={index}>{player}</li>
+          ))}
+        </ul>
+        <Button variant="contained" onClick={sortearJogadores} > Sortear </Button>
+
+        <ul>
+          {playersSort.map((player, index) => (
+            <li key={index}>{player}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
