@@ -51,9 +51,22 @@ function App() {
         <Button variant="contained" onClick={sortearJogadores} > Sortear </Button>
 
         <ul>
-          {playersSort.map((player, index) => (
-            <li key={index}>{player}</li>
-          ))}
+          {playersSort.map((player, index) => {
+
+            if ((index+1) % 7 === 0) {
+              return (
+                <>
+                  <li key={index}>{player}</li>
+                  <li>----------------</li>
+                </>
+              )
+            }else{
+              return (
+                <li key={index}>{player}</li>
+              )
+            }
+          }
+          )}
         </ul>
       </div>
     </div>
